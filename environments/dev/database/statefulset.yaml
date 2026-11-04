@@ -1,0 +1,79 @@
+# LAB ONLY: emptyDir means PostgreSQL data is LOST if the Pod is replaced/rescheduled.
+# Next storage lab: replace with a gp3-backed PVC (after installing AWS EBS CSI) or use RDS.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  annotations:
+    argocd.argoproj.io/sync-wave: '-2'
+  namespace: ecommerce
+spec:
+  serviceName: postgres-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:16-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+          name: postgres
+        env:
+        - name: POSTGRES_USER
+          value: lab
+        - name: POSTGRES_DB
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ecommerce-db
+              key: DB_PASSWORD
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 768Mi
+        startupProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - pg_isready -h 127.0.0.1 -U lab -d userdb
+          periodSeconds: 5
+          failureThreshold: 60
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - pg_isready -h 127.0.0.1 -U lab -d userdb
+          periodSeconds: 5
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - pg_isready -h 127.0.0.1 -U lab -d userdb
+          periodSeconds: 10
+          failureThreshold: 5
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data
+        - name: postgres-init
+          mountPath: /docker-entrypoint-initdb.d
+          readOnly: true
+      volumes:
+      - name: postgres-data
+        emptyDir: {}
+      - name: postgres-init
+        configMap:
+          name: postgres-init

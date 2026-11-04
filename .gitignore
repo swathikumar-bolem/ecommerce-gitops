@@ -1,0 +1,11 @@
+# Never commit secrets or local kubeconfig files.
+.env
+.env.*
+!.env.example
+*secret*.yaml
+!README.md
+.kube/
+*.pem
+*.key
+*.ppk
+

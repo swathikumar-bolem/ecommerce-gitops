@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: ecommerce
+resources:
+- namespace.yaml
+- config/backend-config.yaml
+- database/init-configmap.yaml
+- database/service.yaml
+- database/headless-service.yaml
+- database/statefulset.yaml
+- user-service/service.yaml
+- user-service/deployment.yaml
+- product-service/service.yaml
+- product-service/deployment.yaml
+- inventory-service/service.yaml
+- inventory-service/deployment.yaml
+- order-service/service.yaml
+- order-service/deployment.yaml
+- payment-service/service.yaml
+- payment-service/deployment.yaml
+- frontend/service.yaml
+- frontend/deployment.yaml
