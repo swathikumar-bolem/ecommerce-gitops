@@ -18,8 +18,10 @@ spec:
       app: frontend
   template:
     metadata:
-      labels:
-        app: frontend
+     labels:
+      app: frontend
+     annotations:
+      lab.gitops/release: "v2"
     spec:
       containers:
       - name: frontend
