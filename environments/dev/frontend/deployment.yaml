@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: kumarbolem/ecommerce-frontend:1.1.0
+        image: kumarbolem/ecommerce-frontend:lab06-nonexistent-tag
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
