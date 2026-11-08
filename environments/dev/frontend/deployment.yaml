@@ -40,7 +40,7 @@ spec:
         startupProbe:
           httpGet:
             path: /
-            port: 65535
+            port: http
           periodSeconds: 5
           failureThreshold: 24
         readinessProbe:
