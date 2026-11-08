@@ -46,7 +46,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /
-            port: 65300
+            port: http
           periodSeconds: 5
         livenessProbe:
           httpGet:
