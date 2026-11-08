@@ -17,3 +17,12 @@ spec:
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
+    - RespectIgnoreDifferences=true
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    name: product-service
+    namespace: ecommerce
+    jsonPointers:
+      - /spec/replicas
+
