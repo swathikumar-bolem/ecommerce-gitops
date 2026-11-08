@@ -20,3 +20,4 @@ resources:
 - payment-service/deployment.yaml
 - frontend/service.yaml
 - frontend/deployment.yaml
+- product-service/hpa.yaml
