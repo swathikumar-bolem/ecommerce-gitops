@@ -1,0 +1,31 @@
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: accounting-eks
+  region: us-east-1
+
+accessConfig:
+  authenticationMode: API_AND_CONFIG_MAP
+  accessEntries:
+    - principalARN: arn:aws:iam::622460791781:user/eks-admin
+      type: STANDARD
+      accessPolicies:
+        - policyARN: arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy
+          accessScope:
+            type: cluster
+
+vpc:
+  nat:
+    gateway: Disable
+
+managedNodeGroups:
+  - name: accounting-nodes
+    instanceType: m7i-flex.large
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 2
+    volumeSize: 20
+    privateNetworking: false
+
