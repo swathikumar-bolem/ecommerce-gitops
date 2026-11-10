@@ -35,6 +35,8 @@ spec:
             secretKeyRef:
               name: ecommerce-db
               key: DB_PASSWORD
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
         resources:
           requests:
             cpu: 100m
@@ -73,7 +75,8 @@ spec:
           readOnly: true
       volumes:
       - name: postgres-data
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: postgres-data
       - name: postgres-init
         configMap:
-          name: postgres-init
+         name: postgres-init

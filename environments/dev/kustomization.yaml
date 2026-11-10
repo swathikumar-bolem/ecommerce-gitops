@@ -21,3 +21,5 @@ resources:
 - frontend/service.yaml
 - frontend/deployment.yaml
 - product-service/hpa.yaml
+- database/storageclass.yaml
+- database/pvc.yaml
