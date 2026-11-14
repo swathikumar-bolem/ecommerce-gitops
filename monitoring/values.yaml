@@ -1,0 +1,67 @@
+
+# Lab 11 - Kubernetes monitoring
+
+grafana:
+  enabled: true
+
+  service:
+    type: ClusterIP
+
+  ingress:
+    enabled: false
+
+  persistence:
+    enabled: true
+    storageClassName: ecommerce-gp3
+    accessModes:
+      - ReadWriteOnce
+    size: 2Gi
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 512Mi
+
+prometheus:
+  service:
+    type: ClusterIP
+
+  prometheusSpec:
+    retention: 2d
+
+    resources:
+      requests:
+        cpu: 200m
+        memory: 700Mi
+      limits:
+        cpu: "1"
+        memory: 1500Mi
+
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: ecommerce-gp3
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 5Gi
+
+alertmanager:
+  enabled: true
+
+# EKS manages these control-plane components.
+# Their metrics endpoints are not directly exposed
+# like those of self-managed Kubernetes clusters.
+kubeEtcd:
+  enabled: false
+
+kubeControllerManager:
+  enabled: false
+
+kubeScheduler:
+  enabled: false
+
