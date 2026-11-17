@@ -1,0 +1,49 @@
+
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+
+metadata:
+  name: ecommerce-product-alerts
+  namespace: ecommerce
+  labels:
+    release: monitoring
+
+spec:
+  groups:
+    - name: ecommerce.product
+      rules:
+
+        - alert: ProductServiceUnavailable
+          expr: |
+            kube_deployment_status_replicas_available{
+              namespace="ecommerce",
+              deployment="product-service"
+            }
+            <
+            kube_deployment_spec_replicas{
+              namespace="ecommerce",
+              deployment="product-service"
+            }
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Product Service has unavailable replicas"
+
+        - alert: ProductServiceHpaAtCapacity
+          expr: |
+            kube_horizontalpodautoscaler_status_desired_replicas{
+              namespace="ecommerce",
+              horizontalpodautoscaler="product-service"
+            }
+            >=
+            kube_horizontalpodautoscaler_spec_max_replicas{
+              namespace="ecommerce",
+              horizontalpodautoscaler="product-service"
+            }
+          for: 1m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Product Service HPA reached maximum replicas"
+
