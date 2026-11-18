@@ -1,0 +1,45 @@
+
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: ecommerce-slack
+  namespace: ecommerce
+  labels:
+    alertmanager: ecommerce-alerts
+
+spec:
+  route:
+    receiver: slack-ecommerce
+    groupBy:
+      - alertname
+      - namespace
+      - severity
+    groupWait: 15s
+    groupInterval: 5m
+    repeatInterval: 4h
+    matchers:
+      - name: severity
+        matchType: "="
+        value: warning
+
+  receivers:
+    - name: slack-ecommerce
+      slackConfigs:
+        - apiURL:
+            name: alertmanager-slack-webhook
+            key: webhook-url
+
+          sendResolved: true
+
+          title: >-
+            [{{ .Status }}] {{ .CommonLabels.alertname }}
+
+          text: |-
+            *Environment:* EKS Lab
+            *Namespace:* {{ .CommonLabels.namespace }}
+            *Severity:* {{ .CommonLabels.severity }}
+
+            {{ range .Alerts }}
+            *Alert:* {{ .Labels.alertname }}
+            *Details:* {{ .Annotations.summary }}
+            {{ end }}

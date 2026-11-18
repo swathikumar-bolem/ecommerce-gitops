@@ -24,3 +24,4 @@ resources:
 - database/storageclass.yaml
 - database/pvc.yaml
 - monitoring/product-alerts.yaml
+- monitoring/slack-alertmanagerconfig.yaml

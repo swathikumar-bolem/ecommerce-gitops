@@ -4,3 +4,5 @@ metadata:
   name: ecommerce
   annotations:
     argocd.argoproj.io/sync-wave: '-4'
+  labels:
+    alertmanager-configs: enabled

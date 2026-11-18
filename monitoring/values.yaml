@@ -53,6 +53,15 @@ prometheus:
 alertmanager:
   enabled: true
 
+  alertmanagerSpec:
+    alertmanagerConfigSelector:
+      matchLabels:
+        alertmanager: ecommerce-alerts
+
+    alertmanagerConfigNamespaceSelector:
+      matchLabels:
+        alertmanager-configs: enabled
+
 # EKS manages these control-plane components.
 # Their metrics endpoints are not directly exposed
 # like those of self-managed Kubernetes clusters.
