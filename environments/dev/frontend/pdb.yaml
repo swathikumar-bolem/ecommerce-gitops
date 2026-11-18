@@ -1,0 +1,12 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: frontend-pdb
+  namespace: ecommerce
+spec:
+  minAvailable: 2
+  unhealthyPodEvictionPolicy: AlwaysAllow
+
+  selector:
+    matchLabels:
+      app: frontend

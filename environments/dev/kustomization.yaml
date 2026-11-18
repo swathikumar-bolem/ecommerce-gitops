@@ -25,3 +25,4 @@ resources:
 - database/pvc.yaml
 - monitoring/product-alerts.yaml
 - monitoring/slack-alertmanagerconfig.yaml
+- frontend/pdb.yaml
