@@ -1,0 +1,9 @@
+
+image:
+  tag: "1.0.0"
+
+hpa:
+  minReplicas: 3
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 60
+
