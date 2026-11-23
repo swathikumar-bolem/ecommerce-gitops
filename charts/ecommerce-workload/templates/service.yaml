@@ -1,0 +1,5 @@
+{{- if .Values.resources.service }}
+{{- $obj := deepCopy .Values.resources.service -}}
+{{- $_ := set $obj.metadata "namespace" .Release.Namespace -}}
+{{ toYaml $obj }}
+{{- end }}

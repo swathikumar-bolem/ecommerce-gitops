@@ -1,0 +1,12 @@
+{{- if and .Values.autoscaling.enabled .Values.resources.hpa }}
+{{- $obj := deepCopy .Values.resources.hpa -}}
+{{- $_ := set $obj.metadata "namespace" .Release.Namespace -}}
+{{- $_ := set $obj.spec "minReplicas" (int .Values.autoscaling.minReplicas) -}}
+{{- $_ := set $obj.spec "maxReplicas" (int .Values.autoscaling.maxReplicas) -}}
+{{- range $metric := $obj.spec.metrics }}
+  {{- if and (eq $metric.type "Resource") (eq $metric.resource.name "cpu") }}
+    {{- $_ := set $metric.resource.target "averageUtilization" (int $.Values.autoscaling.targetCPUUtilizationPercentage) -}}
+  {{- end }}
+{{- end }}
+{{ toYaml $obj }}
+{{- end }}

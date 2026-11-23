@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ecommerce-dev-payment-service
+  namespace: argocd
+  labels:
+    lab.env: dev
+    lab.service: payment-service
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/swathikumar-bolem/ecommerce-gitops.git
+    targetRevision: main
+    path: charts/ecommerce-workload
+    helm:
+      releaseName: payment-service
+      valueFiles:
+      - values/base/payment-service.yaml
+      - values/dev/payment-service.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ecommerce
+  syncPolicy:
+    automated:
+      enabled: false
+      prune: false
+      selfHeal: false
+    syncOptions:
+    - FailOnSharedResource=true
+    - RespectIgnoreDifferences=true
+    - CreateNamespace=false

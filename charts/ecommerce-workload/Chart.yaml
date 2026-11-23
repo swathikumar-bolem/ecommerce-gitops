@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ecommerce-workload
+description: Reusable Helm chart for a stateless Ecommerce Kubernetes workload
+version: 0.1.0
+type: application
+appVersion: "1.0.0"

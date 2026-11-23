@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ecommerce-prod-product-service
+  namespace: argocd
+  labels:
+    lab.env: prod
+    lab.service: product-service
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/swathikumar-bolem/ecommerce-gitops.git
+    targetRevision: main
+    path: charts/ecommerce-workload
+    helm:
+      releaseName: product-service
+      valueFiles:
+      - values/base/product-service.yaml
+      - values/prod/product-service.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ecommerce-prod
+  syncPolicy:
+    automated:
+      enabled: false
+      prune: false
+      selfHeal: false
+    syncOptions:
+    - FailOnSharedResource=true
+    - RespectIgnoreDifferences=true
+    - CreateNamespace=false
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    name: product-service
+    namespace: ecommerce-prod
+    jsonPointers:
+    - /spec/replicas

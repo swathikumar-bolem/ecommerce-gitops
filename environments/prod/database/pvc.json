@@ -1,0 +1,22 @@
+{
+  "apiVersion": "v1",
+  "kind": "PersistentVolumeClaim",
+  "metadata": {
+    "name": "postgres-data",
+    "namespace": "ecommerce-prod",
+    "annotations": {
+      "argocd.argoproj.io/sync-wave": "-2"
+    }
+  },
+  "spec": {
+    "accessModes": [
+      "ReadWriteOnce"
+    ],
+    "storageClassName": "ecommerce-gp3",
+    "resources": {
+      "requests": {
+        "storage": "10Gi"
+      }
+    }
+  }
+}

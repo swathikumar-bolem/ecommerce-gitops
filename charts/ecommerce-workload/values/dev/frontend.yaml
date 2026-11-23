@@ -1,0 +1,3 @@
+image:
+  reference: kumarbolem/ecommerce-frontend:1.1.0
+replicaCount: 3

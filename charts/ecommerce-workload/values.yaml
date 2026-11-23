@@ -1,0 +1,8 @@
+# Base and environment-specific value files are generated from your current
+# Git checkout; use both files when rendering an application.
+image:
+  reference: ""
+replicaCount: 1
+autoscaling:
+  enabled: false
+resources: {}

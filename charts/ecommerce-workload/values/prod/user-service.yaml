@@ -1,0 +1,3 @@
+image:
+  reference: kumarbolem/user-service:1.0.0
+replicaCount: 2

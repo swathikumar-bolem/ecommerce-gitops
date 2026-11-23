@@ -1,0 +1,14 @@
+{
+  "apiVersion": "v1",
+  "kind": "ConfigMap",
+  "metadata": {
+    "name": "postgres-init",
+    "annotations": {
+      "argocd.argoproj.io/sync-wave": "-3"
+    },
+    "namespace": "ecommerce-prod"
+  },
+  "data": {
+    "init.sql": "CREATE DATABASE userdb;\nCREATE DATABASE productdb;\nCREATE DATABASE inventorydb;\nCREATE DATABASE orderdb;\nCREATE DATABASE paymentdb;\n"
+  }
+}

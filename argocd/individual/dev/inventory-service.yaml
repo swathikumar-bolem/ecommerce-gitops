@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ecommerce-dev-inventory-service
+  namespace: argocd
+  labels:
+    lab.env: dev
+    lab.service: inventory-service
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/swathikumar-bolem/ecommerce-gitops.git
+    targetRevision: main
+    path: charts/ecommerce-workload
+    helm:
+      releaseName: inventory-service
+      valueFiles:
+      - values/base/inventory-service.yaml
+      - values/dev/inventory-service.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ecommerce
+  syncPolicy:
+    automated:
+      enabled: false
+      prune: false
+      selfHeal: false
+    syncOptions:
+    - FailOnSharedResource=true
+    - RespectIgnoreDifferences=true
+    - CreateNamespace=false

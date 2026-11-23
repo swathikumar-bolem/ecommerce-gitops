@@ -1,0 +1,3 @@
+image:
+  reference: kumarbolem/order-service:1.0.0
+replicaCount: 1

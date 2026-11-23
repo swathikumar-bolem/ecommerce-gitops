@@ -1,0 +1,6 @@
+image:
+  reference: kumarbolem/product-service:1.0.0
+autoscaling:
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 60

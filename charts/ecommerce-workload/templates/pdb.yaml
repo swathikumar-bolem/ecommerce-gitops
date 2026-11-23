@@ -1,0 +1,5 @@
+{{- if .Values.resources.pdb }}
+{{- $obj := deepCopy .Values.resources.pdb -}}
+{{- $_ := set $obj.metadata "namespace" .Release.Namespace -}}
+{{ toYaml $obj }}
+{{- end }}

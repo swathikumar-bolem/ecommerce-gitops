@@ -1,0 +1,12 @@
+{{- if .Values.resources.deployment }}
+{{- $obj := deepCopy .Values.resources.deployment -}}
+{{- $_ := set $obj.metadata "namespace" .Release.Namespace -}}
+{{- $container := index $obj.spec.template.spec.containers 0 -}}
+{{- $_ := set $container "image" .Values.image.reference -}}
+{{- if .Values.autoscaling.enabled -}}
+{{- $_ := unset $obj.spec "replicas" -}}
+{{- else -}}
+{{- $_ := set $obj.spec "replicas" (int .Values.replicaCount) -}}
+{{- end -}}
+{{ toYaml $obj }}
+{{- end }}
