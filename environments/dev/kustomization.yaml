@@ -10,8 +10,6 @@ resources:
 - database/statefulset.yaml
 - user-service/service.yaml
 - user-service/deployment.yaml
-- product-service/service.yaml
-- product-service/deployment.yaml
 - inventory-service/service.yaml
 - inventory-service/deployment.yaml
 - order-service/service.yaml
@@ -20,7 +18,6 @@ resources:
 - payment-service/deployment.yaml
 - frontend/service.yaml
 - frontend/deployment.yaml
-- product-service/hpa.yaml
 - database/storageclass.yaml
 - database/pvc.yaml
 - monitoring/product-alerts.yaml

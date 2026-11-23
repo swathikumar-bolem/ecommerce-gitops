@@ -1,28 +1,48 @@
-# Intentionally manual Sync: no syncPolicy.automated yet.
-# Edit repoURL if you name your GitOps repository differently.
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
+
 metadata:
   name: ecommerce-dev
   namespace: argocd
+
 spec:
   project: default
-  source:
-    repoURL: https://github.com/swathikumar-bolem/ecommerce-gitops.git
-    targetRevision: main
-    path: environments/dev
+
+  sources:
+
+    # Source 1: Existing Kustomize resources
+    # excluding Product Service
+    - repoURL: https://github.com/swathikumar-bolem/ecommerce-gitops.git
+      targetRevision: main
+      path: environments/dev
+
+    # Source 2: Reusable Product Service Helm chart
+    - repoURL: https://github.com/swathikumar-bolem/ecommerce-gitops.git
+      targetRevision: main
+      path: charts/product-service
+      helm:
+        releaseName: product-service
+        valueFiles:
+          - values-dev.yaml
+
   destination:
     server: https://kubernetes.default.svc
     namespace: ecommerce
-  syncPolicy:
-    syncOptions:
-    - CreateNamespace=true
-    - RespectIgnoreDifferences=true
+
   ignoreDifferences:
-  - group: apps
-    kind: Deployment
-    name: product-service
-    namespace: ecommerce
-    jsonPointers:
-      - /spec/replicas
+    - group: apps
+      kind: Deployment
+      name: product-service
+      namespace: ecommerce
+      jsonPointers:
+        - /spec/replicas
+
+  syncPolicy:
+    automated:
+      enabled: false
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - RespectIgnoreDifferences=true
 
