@@ -22,10 +22,11 @@ spec:
     namespace: ecommerce
   syncPolicy:
     automated:
-      enabled: false
+      enabled: true
       prune: false
-      selfHeal: false
+      selfHeal: true
     syncOptions:
     - FailOnSharedResource=true
     - RespectIgnoreDifferences=true
     - CreateNamespace=false
+
